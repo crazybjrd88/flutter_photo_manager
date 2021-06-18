@@ -33,6 +33,14 @@
   return self;
 }
 
+- (PHCachingImageManager *)cachingManager {
+    if (__cachingManager == nil) {
+        __cachingManager = [PHCachingImageManager new];
+    }
+
+    return __cachingManager;
+}
+
 - (BOOL)isAuth {
   return __isAuth;
 }
@@ -1328,7 +1336,7 @@
 }
 
 - (void)cancelCacheRequests {
-  [self.cachingManager stopCachingImagesForAllAssets];
+    [self.cachingManager stopCachingImagesForAllAssets];
 }
 
 - (void)notifyProgress:(NSObject <PMProgressHandlerProtocol> *)handler progress:(double)progress state:(PMProgressState)state {
