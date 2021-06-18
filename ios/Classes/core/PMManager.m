@@ -21,7 +21,7 @@
   BOOL __isAuth;
   PMCacheContainer *cacheContainer;
 
-  PHCachingImageManager *cachingManager;
+  PHCachingImageManager *__cachingManager;
 }
 
 - (instancetype)init {
@@ -29,7 +29,6 @@
   if (self) {
     __isAuth = NO;
     cacheContainer = [PMCacheContainer new];
-    cachingManager = [PHCachingImageManager new];
   }
 
   return self;
@@ -37,6 +36,13 @@
 
 - (BOOL)isAuth {
   return __isAuth;
+}
+
+- (PHCachingImageManager *)cachingManager {
+    if (__cachingManager == nil) {
+        __cachingManager = [PHCachingImageManager new];
+    }
+    return __cachingManager;
 }
 
 - (void)setAuth:(BOOL)auth {
@@ -1309,11 +1315,11 @@
   options.resizeMode = options.resizeMode;
   options.deliveryMode = option.deliveryMode;
 
-  [cachingManager startCachingImagesForAssets:array targetSize:[option makeSize] contentMode:option.contentMode options:options];
+  [self.cachingManager startCachingImagesForAssets:array targetSize:[option makeSize] contentMode:option.contentMode options:options];
 }
 
 - (void)cancelCacheRequests {
-  [cachingManager stopCachingImagesForAllAssets];
+  [self.cachingManager stopCachingImagesForAllAssets];
 }
 
 - (void)notifyProgress:(PMProgressHandler *)handler progress:(double)progress state:(PMProgressState)state {
